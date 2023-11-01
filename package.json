@@ -1,0 +1,27 @@
+{
+  "name": "tinyapp",
+  "version": "1.0.0",
+  "description": "a url shortening app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tajjav/tinyapp.git"
+  },
+  "keywords": [
+    "url",
+    "shortening",
+    "mini",
+    "tinyurl",
+    "mini",
+    "bitly"
+  ],
+  "author": "Tauqeer Javaid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tajjav/tinyapp/issues"
+  },
+  "homepage": "https://github.com/tajjav/tinyapp#readme"
+}
