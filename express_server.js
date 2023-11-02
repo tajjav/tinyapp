@@ -18,6 +18,13 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 })
 
+app.get("/urls/:id", (req, res) => {
+  //req.params.id = {"b2xVn2": "http://www.lighthouselabs.ca"};
+  const templateVars = {id: req.params.id, longURL: urlDatabase[req.params.id]};
+  //res.send(req.params);
+  res.render("urls_show", templateVars);
+});
+
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
