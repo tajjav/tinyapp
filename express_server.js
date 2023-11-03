@@ -61,8 +61,12 @@ app.post("/urls", (req, res) => {
 });
 
 app.get("/u/:id", (req,res) => {
-  const longURL = urlDatabase[req.params.id];
-  res.redirect(longURL);
+  if (urlDatabase[req.params.id] !== undefined) {
+    const longURL = urlDatabase[req.params.id];
+    res.redirect(longURL);
+  } else {
+    throw new Error(`Long URL not found for ${req.params.id}`);
+  }
 })
 
 app.listen(PORT, () => {
