@@ -13,7 +13,6 @@ const generateRandomString = function(length) {
   }
   return result;
 }
-console.log(generateRandomString(6));
 
 app.set("view engine", "ejs");
 
@@ -55,9 +54,11 @@ app.get("/hello", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);
-  res.send("Ok");
-})
+  const id = generateRandomString(6);
+  const value = req.body.longURL;
+  urlDatabase[id] = value;
+  res.redirect(`/urls/${id}`);
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
