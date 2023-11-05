@@ -52,7 +52,7 @@ app.post("/urls", (req, res) => {
 });
 
 app.post("/urls/:id/delete", (req,res) => {
-  const shortUrlToDel = req.url.split("/")[2]; //["",'urls','b2xVn2','delete']
+  const shortUrlToDel = req.url.split("/")[2];
   const actionForShortUrl = req.url.split("/")[3];
   if (actionForShortUrl === 'delete') {
     delete urlDatabase[shortUrlToDel];
