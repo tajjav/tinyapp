@@ -2,24 +2,15 @@ const express = require("express");
 const app = express();
 const PORT = 8080; // default port 8080
 
-const generateRandomString = function(length) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  let counter = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-  return result;
-}
-
+// Templates
 app.set("view engine", "ejs");
 
 // Middlewares
+// app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.urlencoded({ extended: true }));
 
-// DB
+
+// DB - hardcoded
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
@@ -60,6 +51,15 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${id}`);
 });
 
+app.post("/urls/:id/delete", (req,res) => {
+  const shortUrlToDel = req.url.split("/")[2]; //["",'urls','b2xVn2','delete']
+  const actionForShortUrl = req.url.split("/")[3];
+  if (actionForShortUrl === 'delete') {
+    delete urlDatabase[shortUrlToDel];
+  }
+  res.redirect("/urls");
+});
+
 app.get("/u/:id", (req,res) => {
   if (urlDatabase[req.params.id] !== undefined) {
     const longURL = urlDatabase[req.params.id];
@@ -67,8 +67,25 @@ app.get("/u/:id", (req,res) => {
   } else {
     throw new Error(`Long URL not found for ${req.params.id}`);
   }
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+/**
+ * generateRandomString function definition
+ * @param {Number} length 
+ * @returns {String} alphanumeric random string of length 'length'
+ */
+function generateRandomString(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
