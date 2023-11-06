@@ -21,6 +21,12 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
+app.post("/login", (req, res) => {
+  const user = req.body.username;
+  res.cookie('username',user);
+  res.redirect('/urls');
+});
+
 app.get("/urls", (req, res) => {
   const templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
@@ -29,6 +35,7 @@ app.get("/urls", (req, res) => {
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
+
 
 // submit button on /urls/new
 app.post("/urls/new", (req, res) => {
@@ -44,6 +51,7 @@ app.post("/urls/:id/edit", (req,res) => {
   const actionForShortUrl = req.url.split("/")[3];
   res.redirect(`/urls/${shortUrlToEdit}`);
 });
+
 
 // delete button on /urls
 app.post("/urls/:id/delete", (req,res) => {
