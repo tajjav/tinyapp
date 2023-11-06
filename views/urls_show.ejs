@@ -19,29 +19,39 @@
   </header>
   <div class="card text-center">
     <div class="card-header"></div>
-    <div class="card-body">
+    <div class= "card-body">
       <h5 class="card-title">
         TinyURL for: <%= longURL %>
       </h5>
       <p class="card-text">
         Short URL ID: <a href="/urls/<%= id %>"><%= id %></a>
       </p>
-      <form class="form-inline" method="POST" action="/urls/:id" >
-        <div class="form-group col-auto m-auto" >
-          <label for="editedLongURL" >Edit Long URL <span class="font-italic" >(if needed)</span>:</label>
-          <input
-            class="form-control"
-            type="text"
-            name="editedLongURL"
-            placeholder="http://"
-            style="width: 300px; margin: 1em;"
-          >
-          <button type="submit" class="btn btn-primary" >Submit</button>
-        </div>
-      </form>
     </div>
-    <div class="card-footer text-muted"></div>
+    <!-- </div> -->
+    <!--<div class="card text-center" >-->
+    <div class="card header" >
+      <div class="text-muted card-footer" >
+        <h5 class="card-title" >
+          Edit
+        </h5>      
+        <form class="form-inline" method="POST" action="/urls/<%= id %>/edited" >
+          <div class="form-group col-auto m-auto">
+            <label for="editedLongURL" >New URL</label>
+            <input
+              class="form-control"
+              type="text"
+              name="editedLongURL"
+              placeholder="http://"
+              style="width: 300px; margin: 1em;"
+            >
+            <button type="submit" class="btn btn-primary" >Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
+
+
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
