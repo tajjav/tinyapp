@@ -85,15 +85,21 @@ app.post("/register", (req,res) => {
 
 // Auth Login
 app.post("/login", (req, res) => {
-  const user = req.body.username;
-  res.cookie('username',user);
-  res.redirect('/urls');
+  const {email, password} = req.body;
+  const user = getUserByEmail(email,users);
+  if(user && user.password === password) {
+    res.cookie('user_id', user.id);
+    res.redirect('/urls');
+  } else {
+    res.status(403);
+    res.send("User not found");
+  }
 });
 
 // Auth Logout
 app.post("/logout", (req, res) => {
   res.clearCookie('user_id');
-  res.redirect("/register");
+  res.redirect("/login");
 })
 
 
