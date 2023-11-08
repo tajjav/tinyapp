@@ -1,6 +1,6 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
 const bcrypt = require("bcryptjs");
+const cookieSession = require("cookie-session");
 const app = express();
 const PORT = 8080;
 const {isRegisteredEmail, getUser, getUserByEmail, urlsForUser, isUserUrl, isValidUrl} = require("./helpers/userHelpers");
@@ -27,7 +27,11 @@ app.set("view engine", "ejs");
 
 // Middlewares
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieSession({
+  name: "session",
+  keys: ["OulAla", "seEhaa", "croPtop"],
+  maxAge: 24 * 60 * 60 * 1000
+}));
 
 
 // DB - hardcoded
@@ -44,7 +48,7 @@ const users = {
   user2RandomID: {
     id: "user2RandomID",
     email: "user2@example.com",
-    password: bcrypt.hashSync("dishwasher-funk", 11)
+    hashedPassword: bcrypt.hashSync("dishwasher-funk", 11)
   },
 };
 //-------------------------End Points-----------------------------//
@@ -79,7 +83,7 @@ app.post("/register", (req,res) => {
   };
   users[newUserId] = newUser;
   
-  res.cookie('user_id', newUser.id);
+  req.session.user_id = newUser.id;
   res.redirect("/urls");
   });
 
@@ -89,8 +93,8 @@ app.post("/login", (req, res) => {
   const {email, password} = req.body;
   const user = getUserByEmail(email,users);
 
-  if(user && bcrypt.compareSync(password, user.hashedPassword)) {
-    res.cookie('user_id', user.id);
+  if(Object.keys(user).length !== 0 && bcrypt.compareSync(password, user.hashedPassword)) {
+    req.session.user_id = user.id;
     res.redirect('/urls');
   } else {
     res.status(403);
@@ -100,7 +104,7 @@ app.post("/login", (req, res) => {
 
 // Auth Logout
 app.post("/logout", (req, res) => {
-  res.clearCookie('user_id');
+  req.session = null;
   res.redirect("/login");
 })
 
@@ -176,7 +180,7 @@ app.post("/urls/:id/delete", (req,res) => {
 
 // List or Index URL
 app.get("/urls", (req, res) => {
-  const {user_id} = req.cookies;
+  const {user_id} = req.session;
     const templateVars = { 
       urls: urlDatabase,
       user: users[user_id]
@@ -187,7 +191,7 @@ app.get("/urls", (req, res) => {
 
 // New URL
 app.get("/urls/new", (req, res) => {
-  const {user_id} = req.cookies;
+  const {user_id} = req.session;
   const templateVars = {
     user: users[user_id]
   };
@@ -196,7 +200,7 @@ app.get("/urls/new", (req, res) => {
 
 // Show URL
 app.get("/urls/:id", (req, res) => {
-  const {user_id} = req.cookies;
+  const {user_id} = req.session;
   const templateVars = { 
     id: req.params.id,
     longURL: urlDatabase[req.params.id],
