@@ -13,20 +13,20 @@
         <a class="nav-item nav-link" href="/urls/new">
           Create New URL
         </a>
-        <% if (!user) { %>
-          <form class="form-inline" method="get" action="/login">
-            <button type="submit" class="btn btn-outline-primary">Login</button>
-          </form>
-          <form class="form-inline" method="get" action="/register" >
-            <button type="submit" class="btn btn-outline-primary m-2" >Register</button>
-          </form>
-        <% } else { %>
-          <form class="form-inline" method="post" action="/logout" >
-            <label style="margin: 1em">Logged in as: <%= user.email %>!</label>
-            <button type="submit" class="btn btn-outline-primary" >Logout</button>
-          </form>
-        <% } %>
       </div>
+      <% if (!user) { %>
+        <form class="form-inline ml-auto" method="get" action="/login">
+          <button type="submit" class="btn btn-outline-primary">Login</button>
+        </form>
+        <form class="form-inline" method="get" action="/register" >
+          <button type="submit" class="btn btn-outline-primary m-2" >Register</button>
+        </form>
+      <% } else { %>
+        <form class="form-inline ml-auto" method="post" action="/logout" >
+          <label style="margin: 1em">Logged in as: <%= user.email %>!</label>
+          <button type="submit" class="btn btn-outline-primary" >Logout</button>
+        </form>
+      <% } %>
     </div>
   </nav>
 </header>

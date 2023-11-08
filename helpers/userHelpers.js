@@ -1,28 +1,22 @@
 // Helper functions
 
-/**
- * Gets the user object given the user ID
- * @param {string} userId The code for the specific user. The code is generated with our random string function
- * @param {object} userDatabase users database
- * @returns {object} user object. undefined if not found
- */
-const getUser = (userId, userDatabase) => {
-  return userDatabase[userId];
-};
 
 /**
- * Finds the user object in the "users" database given the email
- * @param {string} email email registerd with the user to find
- * @param {object} userDatabase users database
- * @returns {object} the user object. null if not found.
+ * generateRandomString function definition
+ * @param {Number} length 
+ * @returns {String} alphanumeric random string of length 'length'
  */
-const getUserByEmail = (email, userDatabase) => {
-  for (const userId in userDatabase) {
-    if (userDatabase[userId].email === email) {
-      return userDatabase[userId];
-    }
+function generateRandomString(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
   }
-};
+  return result;
+}
 
 /**
  * Checks if the email is already in the database or not
@@ -37,6 +31,20 @@ const isRegisteredEmail = (email, userDatabase) => {
     }
   }
   return false;
+};
+
+/**
+ * Finds the user object in the "users" database given the email
+ * @param {string} email email registerd with the user to find
+ * @param {object} userDatabase users database
+ * @returns {object} the user object. null if not found.
+ */
+const getUserByEmail = (email, userDatabase) => {
+  for (const userId in userDatabase) {
+    if (userDatabase[userId].email === email) {
+      return userDatabase[userId];
+    }
+  }
 };
 
 /**
@@ -55,39 +63,9 @@ const urlsForUser = (id, urlDatabase) => {
   return userUrls;
 };
 
-/**
- * Checks if the url is in our database
- * @param {string} shortUrl key of urlDatabase
- * @param {object} urlDatabase url database
- * @returns {boolean} true if short url is in the database. false otherwise
- */
-const isValidUrl = (shortUrl, urlDatabase) => {
-  if (urlDatabase[shortUrl]) {
-    return true;
-  }
-  return false;
-};
-
-/**
- * Checks if the shortUrl belongs to the user
- * @param {string} shortUrl key of urlDatabase
- * @param {object} user user object
- * @param {object} urlDatabase URL database
- * @returns {boolean} true if the url's user id is user.id. false otherwise
- */
-const isUserUrl = (shortUrl, user, urlDatabase) => {
-  if (isValidUrl(shortUrl, urlDatabase) && urlDatabase[shortUrl].userId === user.id) {
-    return true;
-  }
-  return false;
-};
-
-
 module.exports = {
   isRegisteredEmail,
-  getUser,
   getUserByEmail,
   urlsForUser,
-  isUserUrl,
-  isValidUrl
+  generateRandomString
 };
