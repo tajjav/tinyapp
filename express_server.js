@@ -42,10 +42,12 @@ const users = {
     hashedPassword: bcrypt.hashSync("dishwasher-funk", 11)
   },
 };
+
 //-------------------------End Points-----------------------------//
-// if there is no cookie redirect to /register and if there is cookie, redirect to /urls
+// Root or Home
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  // res.send("Hello!");
+  res.redirect("/login");
 });
 
 ////////////////////////////////////
