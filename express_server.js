@@ -44,7 +44,7 @@ const users = {
 };
 
 //-------------------------End Points-----------------------------//
-// if there is no cookie redirect to /register and if there is cookie, redirect to /urls
+// Home or Root
 app.get("/", (req, res) => {
   // res.send("Hello!");
   res.redirect("/login");
